@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+
+<body>
+  <div id="app" @click="handleClick">{{name}}
+    <bar @click="barClick" @hook:mounted="obChildMounted"></bar>
+  </div>
+  <script>
+
+    Vue.component('bar', {
+      template: '<div>hello<slot></slot></div>',
+      mounted() {
+        console.log('bar 的mounted 触发')
+        console.log(this, 'bar')
+      }
+    })
+
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          arr: [1, 2, 3],
+          name: 'zhangsan',
+
+          a: 1,
+          ob1: Object.freeze({  // 不修改，只显示
+            asd: 'dmslaj'
+          })
+        }
+      },
+      mounted() {
+        console.log(this, 'Vue')
+        this.name = 'cc'
+        this.name = 'dd'
+        this.name = 'ee'
+        this.ob1.asd = '12313'  // 冻结之后修改这个对象无效了。
+        this.ob1 = {  // 但是对这个对象重新赋值是有效的。
+          asd: '12313'   // this is 有效
+        }
+        // this.$nextTick(() => {
+        //   console.log('cc')
+        // })
+      },
+      methods: {
+        handleClick() {
+
+        },
+        obChildMounted() {
+          console.log('父组件监听到了子组件bar的mounted 触发')
+        },
+        barClick() {
+          console.log('bar is Clicked')
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>
