@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"><div id="demo">{{foo }}</div></div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          foo: "ready",
+        },
+        mounted() {
+          const p = document.getElementById("demo");
+          this.foo = "q";
+          this.foo = "w";
+          Promise.resolve().then(() => {
+            console.log("promise", p.innerHTML); // e
+          });
+          this.foo = "e";
+          console.log(p.innerHTML); // ready
+          this.$nextTick(() => {
+            console.log("nextTick", p.innerHTML); // e // 虽然后面写的但是先执行，因为set foo的时候已经在微任务队列中排队了，这个回调是放到了已经在set时就排队的微任务队列 需要执行的那个queue数组中中。
+          });
+        },
+      });
+    </script>
+  </body>
+</html>

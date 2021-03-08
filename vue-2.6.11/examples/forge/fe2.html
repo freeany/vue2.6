@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"><div id="demo">{{foo }}</div></div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          foo: "ready",
+        },
+        // mounted() {
+        //   const p = document.getElementById("demo");
+        //   this.foo = "q";
+        //   this.foo = "w";
+        //   this.foo = "e";
+        //   console.log(p.innerHTML); // ready
+        //   this.$nextTick(() => {
+        //     console.log(p.innerHTML); // e
+        //   });
+        // },
+        // mounted() {
+        //   const p = document.getElementById("demo");
+        //   this.foo = "q";
+        //   this.$nextTick(() => {
+        //     console.log(p.innerHTML); // e
+        //   });
+        //   this.foo = "w";
+        //   this.foo = "e";
+        //   console.log(p.innerHTML); // ready
+        // },
+        mounted() {
+          const p = document.getElementById("demo");
+          // 此时nexttick的callbacks队列中存放的不是flushSchedulerQueue，而是用户传入的callback。
+          this.$nextTick(() => {
+            console.log(p.innerHTML); // ready
+          });
+
+          this.foo = "q";
+          this.foo = "w";
+          this.foo = "e";
+          console.log(p.innerHTML); // ready
+        },
+      });
+    </script>
+  </body>
+</html>

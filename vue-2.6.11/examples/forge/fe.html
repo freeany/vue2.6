@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      //  问：如下代码new了几个Observe， Dep， Watcher  2 4 1
+      // 一个obj就会有一个Observe，所以有2个Observe 每个属性都有一个Dep，但是
+      /**
+       *  observer/index.js export class Observer  这个代码中，标注了每一个Object都有一个Dep为了set和delete后更新watcher
+       * 所以有4个Dep
+       * 一个组件只有一个渲染watcher， 如下代码没有watch xxx属性，所以只有一个Watcher
+       */
+
+      new Vue({
+        el: "#app",
+        data: {
+          obj: {
+            aa: {
+              c: 1,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
